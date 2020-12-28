@@ -1,0 +1,17 @@
+language: node_js
+
+node_js:
+  - node
+
+jobs:
+  include:
+    - stage: release
+      script:
+        - npm run lint
+        - npm run test:coveralls
+        - npm run build
+      after_success:
+        - npm run semantic-release
+
+notifications:
+  email: false
