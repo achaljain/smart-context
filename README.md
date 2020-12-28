@@ -127,8 +127,8 @@ Following methods are available from this package:
 - **`displayName`**: string (mandatory)
 
   - acts as unique identifier of context
-  - set as `displayName` in dev tools
-  - required to get access to context from children
+  - used as `displayName` in dev tools
+  - required to access the context
 
 - **`debug`**: boolean
 

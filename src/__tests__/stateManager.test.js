@@ -56,6 +56,12 @@ describe("state manager helper functions", () => {
     expect(dispatchMock).toHaveBeenCalledTimes(2);
   });
 
+  it("should ignore payload and dispatch reset", () => {
+    const { reset } = actionRef;
+    reset(2);
+    expect(dispatchMock).toHaveBeenCalledTimes(3);
+  });
+
   it("reducer should return updated state with default handler", () => {
     const s = reducerRef(stateRef, {
       type: "SET_DUMMY",
