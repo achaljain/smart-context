@@ -1,10 +1,10 @@
 # smart-context
 
-[![Build Status](https://travis-ci.com/achaljain/smart-context.svg?branch=master)](https://travis-ci.com/achaljain/smart-context) [![Coverage Status](https://coveralls.io/repos/github/achaljain/smart-context/badge.svg?branch=master)](https://coveralls.io/github/achaljain/smart-context?branch=master) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![npm version](https://badge.fury.io/js/smart-context.svg)](https://badge.fury.io/js/smart-context) [![Build Status](https://travis-ci.com/achaljain/smart-context.svg?branch=master)](https://travis-ci.com/achaljain/smart-context) [![Coverage Status](https://coveralls.io/repos/github/achaljain/smart-context/badge.svg?branch=master)](https://coveralls.io/github/achaljain/smart-context?branch=master) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 React state management made easy. Inspired by Redux. Powered by Context.
 
-**Features**
+**Highlights**
 
 - Lightweight. No additional dependencies
 - Based on in-built context API
@@ -12,6 +12,7 @@ React state management made easy. Inspired by Redux. Powered by Context.
 - Debug mode
 - Secure state updates
 - Supports multiple stores/contexts
+- Available in esm, cjs, umd formats
 
 ## Installation
 
@@ -45,7 +46,7 @@ import { initContext } from "smart-context";
 
 const initialState = { name: "default", age: 0 };
 
-// setAge has custom action handler function
+// Age has a custom action handler function
 const actionsConfig = {
   setNameAge: ["name", "age"],
   setAgeCustom: (state, action) => ({ ...state, age: action.payload.val }),
@@ -84,10 +85,12 @@ const MyAwesomeComponent = () => {
     actions: { setNameAge, setAgeCustom, reset },
   } = useContext(getContext("myContext"));
 
-  const clickHandler = () => {
+  const clickHandlerDefault = () => {
     // default action handler (payload is object with exact key names declared in config)
     setNameAge({ name: "ABCD", age: 40 });
+  };
 
+  const clickHandlerCustom = () => {
     // custom handler (payload object can have any structure)
     setAgeCustom({ val: 25 });
   };
@@ -100,9 +103,10 @@ const MyAwesomeComponent = () => {
   return (
     <>
       <div>
-        `Name: ${name} Age: ${age}`
+        `Name: {name} Age: {age}`
       </div>
-      <button onClick={clickHandler}>Update</button>
+      <button onClick={clickHandlerDefault}>Default action type</button>
+      <button onClick={clickHandlerCustom}>Custom action type</button>
       <button onClick={resetHandler}>Reset</button>
     </>
   );
