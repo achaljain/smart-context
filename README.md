@@ -46,10 +46,10 @@ import { initContext } from "smart-context";
 
 const initialState = { name: "default", age: 0 };
 
-// Age has a custom action handler function
+// Declare list of updates or a custom action handler function
 const actionsConfig = {
-  setNameAge: ["name", "age"],
-  setAgeCustom: (state, action) => ({ ...state, age: action.payload.val }),
+  setName: ["name"],
+  setAge: (state, action) => ({ ...state, age: action.payload.val }),
 };
 
 const displayName = "myContext";
@@ -82,17 +82,17 @@ const MyAwesomeComponent = () => {
   // context name is required to access context
   const {
     state: { name, age },
-    actions: { setNameAge, setAgeCustom, reset },
+    actions: { setName, setAge, reset },
   } = useContext(getContext("myContext"));
 
   const clickHandlerDefault = () => {
-    // default action handler (payload is object with exact key names declared in config)
-    setNameAge({ name: "ABCD", age: 40 });
+    // default action handler (pass object with exact key names declared in action config)
+    setName({ name: "ABCD" });
   };
 
   const clickHandlerCustom = () => {
-    // custom handler (payload object can have any structure)
-    setAgeCustom({ val: 25 });
+    // custom handler
+    setAge({ val: 25 });
   };
 
   const resetHandler = () => {
@@ -117,10 +117,10 @@ const MyAwesomeComponent = () => {
 
 Following methods are available from this package:
 
-| Method Name | Input  | Output          | Description                                                       |
+| Method      | Param  | Return          | Description                                                       |
 | ----------- | ------ | --------------- | ----------------------------------------------------------------- |
 | initContext | object | React Component | One time setup with initial state, actions list and a unique name |
-| getContext  | string | React Context   | Access state and actions anywhere inside children                 |
+| getContext  | string | React Context   | Access context (state and actions)                                |
 
 ## Initialization options
 
