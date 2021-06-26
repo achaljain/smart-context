@@ -1,6 +1,6 @@
 {
   "name": "smart-context",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React state management using context",
   "main": "dist/bundle.cjs.js",
   "module": "dist/bundle.esm.js",

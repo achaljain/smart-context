@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/achaljain/smart-context/compare/v2.0.0...v2.0.1) (2021-06-26)
+
+
+### Bug Fixes
+
+* add demo link ([e795edf](https://github.com/achaljain/smart-context/commit/e795edfc10f9f48703f23acbfbcfac5b8b031369))
+
 # [2.0.0](https://github.com/achaljain/smart-context/compare/v1.0.2...v2.0.0) (2021-06-26)
 
 
