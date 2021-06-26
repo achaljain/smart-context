@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/achaljain/smart-context/compare/v2.0.1...v2.0.2) (2021-06-26)
+
+
+### Bug Fixes
+
+* update read me ([67b5947](https://github.com/achaljain/smart-context/commit/67b594711001f1cb5d077513f82cb11de60867e4))
+
 ## [2.0.1](https://github.com/achaljain/smart-context/compare/v2.0.0...v2.0.1) (2021-06-26)
 
 
