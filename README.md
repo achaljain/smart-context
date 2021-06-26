@@ -33,7 +33,8 @@ npm install smart-context
 yarn add smart-context
 ```
 
-**Breaking changes**
+## Breaking changes
+
 v2 introduces new API and features. Refer [v1 docs and example](./docs/v1.md).
 
 - `initContext` is removed. Use `WithContextProvider` HOC
@@ -158,7 +159,7 @@ Following methods are available from this package:
 | Method              | Param           | Return          | Description                                  |
 | ------------------- | --------------- | --------------- | -------------------------------------------- |
 | WithContextProvider | React Component | React Component | Provider HOC. Accepts list of config objects |
-| WithContextProvider | React Component | React Component | Consumer HOC. Accepts list of displayName    |
+| WithContextConsumer | React Component | React Component | Consumer HOC. Accepts list of displayName    |
 | getContext          | string          | React Context   | Access context (state and actions)           |
 
 ## Initialization options
