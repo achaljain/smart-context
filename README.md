@@ -4,6 +4,11 @@
 
 React state management made easy. Inspired by Redux. Powered by Context.
 
+**v2 updates**
+
+- Supports async actions
+- Supports external lib plugins e.g immer.js
+
 **Highlights**
 
 - Lightweight. No additional dependencies
@@ -28,53 +33,62 @@ npm install smart-context
 yarn add smart-context
 ```
 
+**Breaking changes**
+v2 introduces new API and features. Refer [v1 docs and example](./docs/v1.md).
+
+- `initContext` is removed. Use `WithContextProvider` HOC
+- Support for class components enabled. Added `WithContextConsumer` HOC
+- Custom actions functions should return state transform function instead of new state object
+
 ## Example
 
 React context acts as global store. It contains `state` object and `actions` that trigger state updates. All components that consume the `state` will be updated on every action dispatch.
 
 1. Initialize with options: `actionsConfig, initialState, displayName`
-2. Wrap the top level `App` component in the generated context wrapper
+2. Wrap the top level `App` component in `WithContextProvider` HOC
 3. Get access to context(state, actions) via `displayName` anywhere inside the `App`.
+
+### Initialization
 
 Decide a top level component to initialize and plug-in `smart-context`
 
 ```jsx
 // app.jsx
-
 import React from "react";
-import { initContext } from "smart-context";
+import { WithContextProvider } from "smart-context";
 
 const initialState = { name: "default", age: 0 };
 
-// Declare list of updates or a custom action handler function
+// Two types of action definitions
 const actionsConfig = {
   setName: ["name"],
-  setAge: (state, action) => ({ ...state, age: action.payload.val }),
+  setAge: (age) => (state) => ({ ...state, age }),
 };
 
 const displayName = "myContext";
 
-const GlobalContext = initContext({
+/** Config */
+const config = {
   initialState,
   actionsConfig,
   displayName,
   debug: true,
-});
+};
 
 const App = () => (
-  <GlobalContext>
-    <div id="app-container">
-      All children will have access to state and actions via context
-    </div>
-  </GlobalContext>
+  <div id="app-container">
+    All children will have access to state and actions via context
+  </div>
 );
+
+// Apply multiple contexts using list of config objects
+export default WithContextProvider(App, [config]);
 ```
 
-Somewhere inside `App`
+### Example - Function component
 
 ```jsx
 // myAwesomeComponent.jsx
-
 import React, { useContext } from "react";
 import { getContext } from "smart-context";
 
@@ -92,7 +106,7 @@ const MyAwesomeComponent = () => {
 
   const clickHandlerCustom = () => {
     // custom handler
-    setAge({ val: 25 });
+    setAge(25);
   };
 
   const resetHandler = () => {
@@ -111,43 +125,88 @@ const MyAwesomeComponent = () => {
     </>
   );
 };
+
+export default MyAwesomeComponent;
+```
+
+### Example - Class component
+
+```jsx
+import React from "react";
+import { WithContextConsumer } from "smart-context";
+
+class DemoComp extends React.Component {
+  constructor(props) {
+    super(props);
+    // context access via props
+    this.myContextState = props.myContext.state;
+  }
+
+  render() {
+    <div>{this.myContextState.name}</div>;
+  }
+}
+
+// Wrap component in context consumer HOC. Access multiple contexts using displayName list
+export default WithContextConsumer(DemoComp, ["myContext"]);
 ```
 
 ## API
 
 Following methods are available from this package:
 
-| Method      | Param  | Return          | Description                                                       |
-| ----------- | ------ | --------------- | ----------------------------------------------------------------- |
-| initContext | object | React Component | One time setup with initial state, actions list and a unique name |
-| getContext  | string | React Context   | Access context (state and actions)                                |
+| Method              | Param           | Return          | Description                                  |
+| ------------------- | --------------- | --------------- | -------------------------------------------- |
+| WithContextProvider | React Component | React Component | Provider HOC. Accepts list of config objects |
+| WithContextProvider | React Component | React Component | Consumer HOC. Accepts list of displayName    |
+| getContext          | string          | React Context   | Access context (state and actions)           |
 
 ## Initialization options
 
 - **`displayName`**: string (mandatory)
 
   - acts as unique identifier of context
-  - used as `displayName` in dev tools
+  - used as `displayName` in react dev tools
   - required to access the context
 
 - **`debug`**: boolean
 
   - log errors related to invalid action config, action calls and state updates
-  - log any unknown keys found in action calls
   - log all successful, failed state updates
 
-- **`initialState`**: object
+- **`initialState`**: object (not mandatory but recommended)
 
-  - declare some initial state for predictable behavior during initial render and reset (recommended)
+  - declare some initial state for predictable behavior during initial render and reset
 
 - **`actionsConfig`**: object
   - structure: `{ actionName: [string] | function }`
   - **camelCase** is recommended for `actionName`
-  - value can be one of the following:
-    - Array of strings: key names in state that are updated by action
-    - A custom handler function that must return an updated state object: `(state, action) -> state`
-  - action calls expect payload in **object** form, it is available as **action.payload** property inside action handler function
+  - see action examples below for supported types
   - an action with name `reset` is auto-generated that restores `initialState`
+
+## Action Types
+
+### List - Flat object updates
+
+Provide list of state keys for update. Action call expects an object with same keys. Any other key provided during action dispatch will be ignored.
+
+```jsx
+actionName: ["key1", "key2"];
+```
+
+### Function - Async data, deep state object, external lib integration
+
+Provide a function that returns state transformation function
+
+```jsx
+actionName: async (payload) => {
+  // Async API call here
+  const data = await AsyncAPICall()
+
+  // State transform function
+  return (state) => {...state, ...data}
+};
+```
 
 ## Contributing
 
