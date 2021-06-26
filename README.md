@@ -4,6 +4,8 @@
 
 React state management made easy. Inspired by Redux. Powered by Context.
 
+[DEMO](https://react-smart-context-demo.stackblitz.io)
+
 **v2 updates**
 
 - Supports async actions
