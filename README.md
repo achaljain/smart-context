@@ -4,7 +4,7 @@
 
 React state management made easy. Inspired by Redux. Powered by Context.
 
-[DEMO](https://react-smart-context-demo.stackblitz.io)
+[DEMO](https://react-smart-context-demo.stackblitz.io) [Repo](https://github.com/achaljain/react-smart-context-demo)
 
 **v2 updates**
 
@@ -122,8 +122,8 @@ const MyAwesomeComponent = () => {
       <div>
         `Name: {name} Age: {age}`
       </div>
-      <button onClick={clickHandlerDefault}>Default action type</button>
-      <button onClick={clickHandlerCustom}>Custom action type</button>
+      <button onClick={clickHandlerDefault}>Set Name</button>
+      <button onClick={clickHandlerCustom}>Set Age</button>
       <button onClick={resetHandler}>Reset</button>
     </>
   );
@@ -141,12 +141,11 @@ import { WithContextConsumer } from "smart-context";
 class DemoComp extends React.Component {
   constructor(props) {
     super(props);
-    // context access via props
-    this.myContextState = props.myContext.state;
   }
 
   render() {
-    <div>{this.myContextState.name}</div>;
+    const { state } = props.myContext
+    <div>{state.name}</div>;
   }
 }
 
