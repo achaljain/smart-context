@@ -2,16 +2,14 @@ import React, { useContext } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
 import { WithContextProvider, WithContextConsumer, getContext } from "../index";
-import {
-  getInitialState,
-  getDispatch,
-  getProvider,
-  registerDispatch,
-} from "../register";
 
 const config1 = {
   initialState: { dummy1: "" },
-  actionsConfig: { setDummy1: ["dummy1"], invalidAction: [null] },
+  actionsConfig: {
+    setDummy1: ["dummy1"],
+    invalidAction: [null],
+    reset: () => () => {},
+  },
   displayName: "testCtx1",
   debug: true,
 };
@@ -159,7 +157,7 @@ describe("Context wrapper", () => {
 
   it("should throw error for invalid config in provider", () => {
     try {
-      WithContextProvider(App, []);
+      WithContextProvider(App, [{}]);
     } catch (error) {
       expect(error).toBeTruthy(); // eslint-disable-line
     }
@@ -175,25 +173,17 @@ describe("Context wrapper", () => {
 
   it("should throw error for invalid context name", () => {
     try {
-      WithContextProvider(App, [{}]);
-    } catch (error) {
-      expect(error).toBeTruthy(); // eslint-disable-line
-    }
-  });
-
-  it("should handle errors in context", () => {
-    registerDispatch("unknown");
-    expect(getInitialState("unknown")).toBeTruthy();
-    expect(getProvider("testCtx1")).toBeTruthy();
-    try {
-      getDispatch("invalid");
+      WithContextProvider(App, [{ actionsConfig: {} }]);
     } catch (error) {
       expect(error).toBeTruthy(); // eslint-disable-line
     }
   });
 
   it("should use existing provider", () => {
-    const WithContextDup = WithContextProvider(App, [config1, config2]);
+    const WithContextDup = WithContextProvider(App, [
+      config1,
+      { displayName: "dummyCtx", debug: false },
+    ]);
     expect(WithContextDup).toBeTruthy();
   });
 });

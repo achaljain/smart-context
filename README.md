@@ -4,7 +4,9 @@
 
 React state management made easy. Inspired by Redux. Powered by Context.
 
-[DEMO](https://react-smart-context-demo.stackblitz.io) [Repo](https://github.com/achaljain/react-smart-context-demo)
+## Demo
+
+Here is the working [demo](https://react-smart-context-demo.stackblitz.io) with src [link](https://github.com/achaljain/react-smart-context-demo)
 
 **v2 updates**
 
@@ -113,7 +115,7 @@ const MyAwesomeComponent = () => {
   };
 
   const resetHandler = () => {
-    // reset action is auto-generated that restores initial state
+    // reset action is auto-generated (if not provided) that restores initial state
     reset();
   };
 
@@ -163,7 +165,7 @@ Following methods are available from this package:
 | WithContextConsumer | React Component | React Component | Consumer HOC. Accepts list of displayName    |
 | getContext          | string          | React Context   | Access context (state and actions)           |
 
-## Initialization options
+## Config options
 
 - **`displayName`**: string (mandatory)
 
@@ -190,13 +192,13 @@ Following methods are available from this package:
 
 ### List - Flat object updates
 
-Provide list of state keys for update. Action call expects an object with same keys. Any other key provided during action dispatch will be ignored.
+Provide list of state keys for update. Action call expects an object with same keys. Any other key provided during action dispatch will be ignored. These actions use ES6 spread operator for state updates.
 
 ```jsx
 actionName: ["key1", "key2"];
 ```
 
-### Function - Async data, deep state object, external lib integration
+### Function - Async data, deep nested state object, external lib integration such as immer
 
 Provide a function that returns state transformation function
 
@@ -209,6 +211,10 @@ actionName: async (payload) => {
   return (state) => {...state, ...data}
 };
 ```
+
+### Reset Action
+
+A `reset` action is auto-generated if not provided in config. This action uses flat ES6 spread operator to copy `initialState`. It is recommended to use a custom function in action config, if `initialState` is a deeply nested object
 
 ## Contributing
 

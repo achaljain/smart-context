@@ -1,8 +1,8 @@
-import { getActionName, checkValidActionKey, fireLog } from "./utils";
-import { getDispatch, getInitialState } from "./register";
+import { getActionName, validateConfigArray, fireLog } from "./utils";
+import { getContextParam } from "./register";
 
 const getDispatcher = (type, contextName) => (payload) => {
-  const dispatch = getDispatch(contextName);
+  const dispatch = getContextParam(contextName, "dispatch");
   return dispatch({ type, payload, contextName });
 };
 
@@ -20,7 +20,7 @@ const createActions = (actionConfig, contextName, debug) => {
         const updatedFn = await Promise.resolve(actionEffect(...params));
         getDispatcher(actionName, contextName)(updatedFn);
       };
-    } else if (checkValidActionKey(actionEffect)) {
+    } else if (validateConfigArray(actionEffect)) {
       actions[a] = (payload) => {
         if (typeof payload !== "object") {
           fireLog(
@@ -52,7 +52,14 @@ const createActions = (actionConfig, contextName, debug) => {
     }
   });
 
-  actions.reset = getDispatcher("RESET", contextName);
+  /** add reset action if not provided in config */
+  if (!actions.reset) {
+    actions.reset = () =>
+      getDispatcher(
+        "RESET",
+        contextName
+      )(getContextParam(contextName, "initialState"));
+  }
 
   if (debug && Object.keys(inValidActions).length) {
     fireLog(debug, "error", "Invalid actions found in config are ignored.", {
@@ -67,12 +74,10 @@ const createActions = (actionConfig, contextName, debug) => {
 const createReducers = (contextName, debug) => {
   const reducer = (state, action) => {
     try {
-      const { type, payload } = action;
+      const { payload } = action;
 
       let newState;
-      if (type === "RESET") {
-        newState = getInitialState(contextName);
-      } else if (typeof payload === "function") {
+      if (typeof payload === "function") {
         newState = payload(state);
       } else {
         newState = { ...state, ...payload };

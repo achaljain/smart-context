@@ -3,12 +3,21 @@ export const getActionName = (str) =>
   str.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toUpperCase();
 
 export const validateStringLiteral = (str) =>
-  typeof str === "string" && str !== "";
+  str && typeof str === "string" && str.length > 0;
 
-export const checkValidActionKey = (val) => {
-  const isArray = Array.isArray(val);
-  const allStrings = isArray && val.every((i) => validateStringLiteral(i));
-  return allStrings;
+export const validateObject = (obj) =>
+  obj && obj.constructor === Object && Object.keys(obj).length > 0;
+
+export const validateArray = (arr) => Array.isArray(arr) && arr.length > 0;
+
+export const validateConfigArray = (arr, elemType) => {
+  if (!validateArray(arr)) {
+    return false;
+  }
+
+  const validator =
+    elemType === "object" ? validateObject : validateStringLiteral;
+  return arr.every((elem) => validator(elem));
 };
 
 export const fireLog = (debug, type, message, data) => {
@@ -16,6 +25,3 @@ export const fireLog = (debug, type, message, data) => {
     console[type](`::SMART-CONTEXT::DEBUG:: ${message}`, data);
   }
 };
-
-export const validateConfigArray = (obj) =>
-  Array.isArray(obj) && obj.length > 0;

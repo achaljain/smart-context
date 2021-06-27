@@ -2,12 +2,14 @@
  * Context consumer HOC can be used with class or function components
  */
 import React from "react";
-import getContext from "./register";
+import { getContextParam } from "./register";
 import { validateConfigArray } from "./utils";
 
-const getWrapper = (WrappedComponent, CtxName) => {
+export const getContext = (name) => getContextParam(name, "context");
+
+const getWrapper = (WrappedComponent, ctxName) => {
   const SmartConsumer = (props) => {
-    const CtxRef = getContext(CtxName);
+    const CtxRef = getContext(ctxName);
 
     if (!CtxRef) {
       return <WrappedComponent {...props} />;

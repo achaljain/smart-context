@@ -1,7 +1,6 @@
 import {
   fireLog,
   getActionName,
-  checkValidActionKey,
   validateConfigArray,
   validateStringLiteral,
 } from "../utils";
@@ -27,24 +26,12 @@ describe("Utils", () => {
     expect(validateStringLiteral("valid string")).toBeTruthy();
   });
 
-  it("should check validity of action config", () => {
-    const type1 = checkValidActionKey(["a", 123]);
-    expect(type1).toEqual(false);
-
-    const type2 = checkValidActionKey([]);
-    expect(type2).toEqual(true);
-
-    const type3 = checkValidActionKey("test");
-    expect(type3).toEqual(false);
-
-    const type4 = checkValidActionKey(["a", "b"]);
-    expect(type4).toEqual(true);
-  });
-
   it("should validate config array", () => {
     expect(validateConfigArray("str")).toBeFalsy();
     expect(validateConfigArray([])).toBeFalsy();
-    expect(validateConfigArray([{}])).toBeTruthy();
+    expect(validateConfigArray(["str"])).toBeTruthy();
+    expect(validateConfigArray([{}], "object")).toBeFalsy();
+    expect(validateConfigArray([{ debug: true }], "object")).toBeTruthy();
   });
 
   it("should fire logs", () => {

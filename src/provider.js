@@ -4,7 +4,7 @@ import React, { createContext, useReducer, useEffect } from "react";
 
 import { setupStore } from "./manager";
 import { validateStringLiteral, validateConfigArray } from "./utils";
-import { registerContext, registerDispatch, getProvider } from "./register";
+import { registerContextParams, getContextParam } from "./register";
 
 const generateWrapper = (WrappedComponent, config) => {
   const {
@@ -19,7 +19,7 @@ const generateWrapper = (WrappedComponent, config) => {
     throw new Error(message);
   }
 
-  const ProviderWrapper = getProvider(displayName);
+  const ProviderWrapper = getContextParam(displayName, "provider");
 
   if (ProviderWrapper) {
     return ProviderWrapper;
@@ -38,7 +38,7 @@ const generateWrapper = (WrappedComponent, config) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
-      registerDispatch({ displayName, dispatch });
+      registerContextParams({ displayName, params: { dispatch } });
     }, []);
 
     const data = {
@@ -53,18 +53,21 @@ const generateWrapper = (WrappedComponent, config) => {
     );
   };
 
-  registerContext({
-    context: Context,
-    provider: SmartProvider,
-    initialState,
-    debug,
+  registerContextParams({
+    displayName,
+    params: {
+      context: Context,
+      provider: SmartProvider,
+      initialState,
+      debug,
+    },
   });
 
   return SmartProvider;
 };
 
 const WithContextProvider = (WrappedComponent, configArray) => {
-  if (!validateConfigArray(configArray)) {
+  if (!validateConfigArray(configArray, "object")) {
     throw new Error("WithContextProvider: Config array invalid");
   }
 
