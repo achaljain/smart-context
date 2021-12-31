@@ -53,6 +53,8 @@ const generateWrapper = (WrappedComponent, config) => {
     );
   };
 
+  SmartProvider.displayName = `${displayName.toUpperCase()}_PROVIDER`;
+
   registerContextParams({
     displayName,
     params: {

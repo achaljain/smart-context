@@ -1,9 +1,4 @@
-import {
-  fireLog,
-  getActionName,
-  validateConfigArray,
-  validateStringLiteral,
-} from "../utils";
+import { fireLog, validateConfigArray, validateStringLiteral } from "../utils";
 
 describe("Utils", () => {
   let spy;
@@ -14,11 +9,6 @@ describe("Utils", () => {
 
   afterAll(() => {
     spy.mockRestore();
-  });
-
-  it("should return action name in screaming snake case", () => {
-    const str = getActionName("setDummyState");
-    expect(str).toEqual("SET_DUMMY_STATE");
   });
 
   it("should validate string", () => {

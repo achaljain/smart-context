@@ -1,4 +1,4 @@
-import { getActionName, validateConfigArray, fireLog } from "./utils";
+import { validateConfigArray, fireLog } from "./utils";
 import { getContextParam } from "./register";
 
 const getDispatcher = (type, contextName) => (payload) => {
@@ -11,7 +11,7 @@ const createActions = (actionConfig, contextName, debug) => {
   const inValidActions = {};
 
   Object.keys(actionConfig).forEach((a) => {
-    const actionName = getActionName(a);
+    const actionName = a;
     const actionEffect = actionConfig[a];
 
     if (typeof actionEffect === "function") {
@@ -56,7 +56,7 @@ const createActions = (actionConfig, contextName, debug) => {
   if (!actions.reset) {
     actions.reset = () =>
       getDispatcher(
-        "RESET",
+        "reset",
         contextName
       )(getContextParam(contextName, "initialState"));
   }

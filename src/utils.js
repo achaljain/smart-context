@@ -1,7 +1,3 @@
-// camelCase to SCREAMING_SNAKE_CASE
-export const getActionName = (str) =>
-  str.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toUpperCase();
-
 export const validateStringLiteral = (str) =>
   str && typeof str === "string" && str.length > 0;
 
