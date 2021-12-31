@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/achaljain/smart-context/compare/v2.0.2...v2.1.0) (2021-06-27)
+
+
+### Features
+
+* reset support ([ce66133](https://github.com/achaljain/smart-context/commit/ce661330a0bafad4d2dcf1a128c4c0f0fe640466))
+
 ## [2.0.2](https://github.com/achaljain/smart-context/compare/v2.0.1...v2.0.2) (2021-06-26)
 
 
