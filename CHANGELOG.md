@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/achaljain/smart-context/compare/v2.1.1...v2.1.2) (2022-01-01)
+
+
+### Bug Fixes
+
+* code refractor ([e8994a8](https://github.com/achaljain/smart-context/commit/e8994a82256414e6059783bea3bac0501b722a01))
+
 ## [2.1.1](https://github.com/achaljain/smart-context/compare/v2.1.0...v2.1.1) (2021-12-31)
 
 
