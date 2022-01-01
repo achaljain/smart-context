@@ -104,10 +104,7 @@ describe("Context wrapper", () => {
 
   const WithContext = WithContextProvider(App, [config1, config2]);
 
-  const ClassCompWithContext = WithContextConsumer(ClassComp, [
-    "testCtx2",
-    "invalidIgnored",
-  ]);
+  const ClassCompWithContext = WithContextConsumer(ClassComp, ["testCtx2"]);
 
   beforeEach(() => {
     Component = render(
@@ -173,7 +170,7 @@ describe("Context wrapper", () => {
 
   it("should throw error for invalid context name", () => {
     try {
-      WithContextProvider(App, [{ actionsConfig: {} }]);
+      WithContextProvider(App, [{ actionsConfig: {}, displayName: null }]);
     } catch (error) {
       expect(error).toBeTruthy(); // eslint-disable-line
     }

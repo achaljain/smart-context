@@ -3,7 +3,7 @@
 import React, { createContext, useReducer, useEffect } from "react";
 
 import { setupStore } from "./manager";
-import { validateStringLiteral, validateConfigArray } from "./utils";
+import { fireLog } from "./utils";
 import { registerContextParams, getContextParam } from "./register";
 
 const generateWrapper = (WrappedComponent, config) => {
@@ -13,11 +13,6 @@ const generateWrapper = (WrappedComponent, config) => {
     displayName = "",
     debug = false,
   } = config;
-
-  if (!validateStringLiteral(displayName)) {
-    const message = `Context name not valid: ${displayName}.`;
-    throw new Error(message);
-  }
 
   const ProviderWrapper = getContextParam(displayName, "provider");
 
@@ -69,16 +64,16 @@ const generateWrapper = (WrappedComponent, config) => {
 };
 
 const WithContextProvider = (WrappedComponent, configArray) => {
-  if (!validateConfigArray(configArray, "object")) {
-    throw new Error("WithContextProvider: Config array invalid");
+  try {
+    const ContextWrap = configArray.reduce(
+      (acc, curr) => generateWrapper(acc, curr),
+      WrappedComponent
+    );
+    return ContextWrap;
+  } catch (error) {
+    fireLog(true, "error", "WithContextProvider: Config array invalid", error);
+    return WrappedComponent;
   }
-
-  const ContextWrap = configArray.reduce(
-    (acc, curr) => generateWrapper(acc, curr),
-    WrappedComponent
-  );
-
-  return ContextWrap;
 };
 
 export default WithContextProvider;

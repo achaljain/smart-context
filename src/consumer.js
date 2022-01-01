@@ -8,18 +8,14 @@ import { validateConfigArray } from "./utils";
 export const getContext = (name) => getContextParam(name, "context");
 
 const getWrapper = (WrappedComponent, ctxName) => {
-  const ctxRef = getContext(ctxName);
-
-  if (!ctxRef) {
-    return WrappedComponent;
-  }
-
   const SmartConsumer = (props) => {
+    const ctxRef = getContext(ctxName);
+
     const ctxData = useContext(ctxRef);
 
     const newProps = {
       ...props,
-      [`${ctxRef.displayName}`]: ctxData,
+      [ctxName]: ctxData,
     };
 
     return <WrappedComponent {...newProps} />;

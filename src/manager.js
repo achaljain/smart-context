@@ -1,4 +1,4 @@
-import { validateConfigArray, fireLog } from "./utils";
+import { validateConfigArray, fireLog, validateObject } from "./utils";
 import { getContextParam } from "./register";
 
 const getDispatcher = (type, contextName) => (payload) => {
@@ -22,7 +22,7 @@ const createActions = (actionConfig, contextName, debug) => {
       };
     } else if (validateConfigArray(actionEffect)) {
       actions[a] = (payload) => {
-        if (typeof payload !== "object") {
+        if (!validateObject(payload)) {
           fireLog(
             debug,
             "error",
