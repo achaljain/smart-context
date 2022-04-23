@@ -1,6 +1,6 @@
 /** Context provider HOC */
 
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer, useEffect, useState } from "react";
 
 import { setupStore } from "./manager";
 import { fireLog } from "./utils";
@@ -31,10 +31,16 @@ const generateWrapper = (WrappedComponent, config) => {
 
   const SmartProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
       registerContextParams({ displayName, params: { dispatch } });
+      setReady(true);
     }, []);
+
+    if (!ready) {
+      return <></>;
+    }
 
     const data = {
       state,

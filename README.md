@@ -1,27 +1,39 @@
-# smart-context
+<style>
+  .title {
+    text-align: center;
+  }
+</style>
+
+<div class="title">
+
+<img src='assets/smart-context-logo.png' height='150' alt='Logo' aria-label='smart-context' />
+
+<h1>smart-context</h1>
+
+<p>React state management made easy</p>
 
 [![npm version](https://badge.fury.io/js/smart-context.svg)](https://badge.fury.io/js/smart-context) [![Build Status](https://travis-ci.com/achaljain/smart-context.svg?branch=master)](https://travis-ci.com/achaljain/smart-context) [![Coverage Status](https://coveralls.io/repos/github/achaljain/smart-context/badge.svg?branch=master)](https://coveralls.io/github/achaljain/smart-context?branch=master) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-React state management made easy. Inspired by Redux. Powered by Context.
+</div>
 
-## Demo
+## Highlights
 
-Here is the working [demo](https://react-smart-context-demo.stackblitz.io) with src [link](https://github.com/achaljain/react-smart-context-demo)
-
-**v2 updates**
-
-- Supports async actions
-- Supports external lib plugins e.g immer.js
-
-**Highlights**
-
-- Lightweight. No additional dependencies
-- Based on in-built context API
-- Easy configuration
+- Lightweight ( ~1.2 kb )
+- Zero setup. No boilerplate
+- 100% config driven
+- Async actions
+- Extend with plugins like Immer
 - Debug mode
 - Secure state updates
-- Supports multiple stores/contexts
-- Available in esm, cjs, umd formats
+- Multiple stores/contexts
+
+## Introduction
+
+smart-context is based on in-built React features - context and hooks.
+
+If you know React, you know smart-context. There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
+
+Here is the [demo](https://react-smart-context-demo.stackblitz.io).
 
 ## Installation
 
@@ -37,96 +49,90 @@ npm install smart-context
 yarn add smart-context
 ```
 
-## Breaking changes
+## Getting started
 
-v2 introduces new API and features. Refer [v1 docs and example](./docs/v1.md).
+You can create multiple stores. All stores must have a unique name.
 
-- `initContext` is removed. Use `WithContextProvider` HOC
-- Support for class components enabled. Added `WithContextConsumer` HOC
-- Custom actions functions should return state transform function instead of new state object
+Setup in 3 simple steps:
 
-## Example
+1. Create store
+2. Plugin to your app
+3. Access store
 
-React context acts as global store. It contains `state` object and `actions` that trigger state updates. All components that consume the `state` will be updated on every action dispatch.
+### Create store
 
-1. Initialize with options: `actionsConfig, initialState, displayName`
-2. Wrap the top level `App` component in `WithContextProvider` HOC
-3. Get access to context(state, actions) via `displayName` anywhere inside the `App`.
+```js
+// store.js
 
-### Initialization
+// Create initial state
+const initialState = { name: "" };
 
-Decide a top level component to initialize and plug-in `smart-context`
-
-```jsx
-// app.jsx
-import React from "react";
-import { WithContextProvider } from "smart-context";
-
-const initialState = { name: "default", age: 0 };
-
-// Two types of action definitions
+// Create actions
 const actionsConfig = {
   setName: ["name"],
-  setAge: (age) => (state) => ({ ...state, age }),
 };
 
+// Provide a good name
 const displayName = "myContext";
 
-/** Config */
-const config = {
+// Setup is done! Export config
+export default {
   initialState,
   actionsConfig,
   displayName,
-  debug: true,
 };
-
-const App = () => (
-  <div id="app-container">
-    All children will have access to state and actions via context
-  </div>
-);
-
-// Apply multiple contexts using list of config objects
-export default WithContextProvider(App, [config]);
 ```
 
-### Example - Function component
+### Plugin to your app
+
+Add multiple stores to your app with just one line.
+
+```jsx
+// Wrap root component in smart-context HOC
+import React from "react";
+import { WithContextProvider } from "smart-context";
+
+import Config from "./store";
+
+const App = ({ children }) => <div id="app-container">{children}</div>;
+
+export default WithContextProvider(App, [Config]);
+```
+
+### Access store
+
+`smart-context` ready for use in entire app.
+
+Access store via builtin `useContext` hook or `smart-context` HOC.
+
+#### Using hook
 
 ```jsx
 // myAwesomeComponent.jsx
+
 import React, { useContext } from "react";
 import { getContext } from "smart-context";
 
 const MyAwesomeComponent = () => {
-  // context name is required to access context
+  // Access context via displayName
   const {
-    state: { name, age },
-    actions: { setName, setAge, reset },
+    state: { name },
+    actions: { setName, reset },
   } = useContext(getContext("myContext"));
 
-  const clickHandlerDefault = () => {
-    // default action handler (pass object with exact key names declared in action config)
-    setName({ name: "ABCD" });
-  };
-
-  const clickHandlerCustom = () => {
-    // custom handler
-    setAge(25);
+  const clickHandler = () => {
+    setName({ name: "smart-context" });
   };
 
   const resetHandler = () => {
-    // reset action is auto-generated (if not provided) that restores initial state
     reset();
   };
 
   return (
     <>
-      <div>
-        `Name: {name} Age: {age}`
-      </div>
-      <button onClick={clickHandlerDefault}>Set Name</button>
-      <button onClick={clickHandlerCustom}>Set Age</button>
+      <button onClick={clickHandler}>Say Hi</button>
       <button onClick={resetHandler}>Reset</button>
+      {name ? <h1>Hi, {name}</h1> : null}
     </>
   );
 };
@@ -134,9 +140,11 @@ const MyAwesomeComponent = () => {
 export default MyAwesomeComponent;
 ```
 
-### Example - Class component
+### Using HOC
 
 ```jsx
+// demoComp.js
+
 import React from "react";
 import { WithContextConsumer } from "smart-context";
 
@@ -145,38 +153,27 @@ class DemoComp extends React.Component {
     super(props);
   }
 
+  // context is available in prop with same name
   render() {
     const { state } = props.myContext
     <div>{state.name}</div>;
   }
 }
 
-// Wrap component in context consumer HOC. Access multiple contexts using displayName list
+// Access multiple contexts in one line.
 export default WithContextConsumer(DemoComp, ["myContext"]);
 ```
-
-## API
-
-Following methods are available from this package:
-
-| Method              | Param           | Return          | Description                                  |
-| ------------------- | --------------- | --------------- | -------------------------------------------- |
-| WithContextProvider | React Component | React Component | Provider HOC. Accepts list of config objects |
-| WithContextConsumer | React Component | React Component | Consumer HOC. Accepts list of displayName    |
-| getContext          | string          | React Context   | Access context (state and actions)           |
 
 ## Config options
 
 - **`displayName`**: string (mandatory)
 
-  - acts as unique identifier of context
-  - used as `displayName` in react dev tools
-  - required to access the context
+  - A unique name for context store
+  - Required to access the context
 
 - **`debug`**: boolean
 
-  - log errors related to invalid action config, action calls and state updates
-  - log all successful, failed state updates
+  - Log errors and state updates to console
 
 - **`initialState`**: object (not mandatory but recommended)
 
@@ -185,36 +182,66 @@ Following methods are available from this package:
 - **`actionsConfig`**: object
   - structure: `{ actionName: [string] | function }`
   - **camelCase** is recommended for `actionName`
-  - see action examples below for supported types
-  - an action with name `reset` is auto-generated that restores `initialState`
+  - for any store, `reset` action is auto-generated that restores `initialState`
 
 ## Action Types
 
-### List - Flat object updates
+There are two possible action types.
 
-Provide list of state keys for update. Action call expects an object with same keys. Any other key provided during action dispatch will be ignored. These actions use ES6 spread operator for state updates.
+### List
 
 ```jsx
 actionName: ["key1", "key2"];
 ```
 
-### Function - Async data, deep nested state object, external lib integration such as immer
+Provide list of state keys for update. Action call expects an object with same keys.
 
-Provide a function that returns state transformation function
+Mismatching keys in action calls are ignored.
+
+#### Caution
+
+This will only create shallow copy of state. Be careful if you have deep nested state object.
+
+### Function
+
+Provide a function that returns another function (state transform function).
+
+State transform function gets previous state and returns new state.
+
+This is suitable for deep nested state objects, async actions, integrate external plugins etc.
 
 ```jsx
+
+// Async actions
 actionName: async (payload) => {
-  // Async API call here
+  // Some API call here
   const data = await AsyncAPICall()
 
   // State transform function
-  return (state) => {...state, ...data}
+  return (state) => {...state, ...data }
 };
+
+// Immutability with immer js
+import produce from "immer";
+
+// Reusable utility method.
+// cb: state transform function
+const updateWithImmer = (cb) => (state) => {
+  const newSt = produce(state, cb);
+  return newSt;
+};
+
+actionName: (payload) => {
+  return updateWithImmer((state) => {
+      state.data = 'This is just a example..'
+    })
+};
+
 ```
 
 ### Reset Action
 
-A `reset` action is auto-generated if not provided in config. This action uses flat ES6 spread operator to copy `initialState`. It is recommended to use a custom function in action config, if `initialState` is a deeply nested object
+A `reset` action is auto-generated if not provided in config. Restores `initialState`.
 
 ## Contributing
 
