@@ -27,7 +27,7 @@ smart-context is based on in-built React features - context and hooks.
 
 If you know React, you know smart-context. There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
 
-Here is the [demo](https://react-smart-context-demo.stackblitz.io).
+Here is the [demo](https://react-ndsscw.stackblitz.io).
 
 ## Installation
 
