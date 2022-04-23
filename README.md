@@ -134,7 +134,7 @@ const MyAwesomeComponent = () => {
 export default MyAwesomeComponent;
 ```
 
-### Using HOC
+#### Using HOC
 
 ```jsx
 // demoComp.js
