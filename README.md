@@ -1,10 +1,4 @@
-<style>
-  .title {
-    text-align: center;
-  }
-</style>
-
-<div class="title">
+<div align="center">
 
 <img src='assets/smart-context-logo.png' height='150' alt='Logo' aria-label='smart-context' />
 
