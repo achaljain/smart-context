@@ -149,8 +149,8 @@ class DemoComp extends React.Component {
 
   // context is available in prop with same name
   render() {
-    const { state } = props.myContext
-    <div>{state.name}</div>;
+    const { state } = this.props.myContext
+    return <div>{state.name}</div>;
   }
 }
 
