@@ -25,5 +25,6 @@
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-console": "off"
-  }
+  },
+  "ignorePatterns": ["website"]
 }

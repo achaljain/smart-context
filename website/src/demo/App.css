@@ -1,0 +1,36 @@
+.demo-app-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-section {
+  margin: 0.5rem;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  flex-basis: 50%;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.demo-section button {
+  border-radius: 5px;
+  border: 1px solid #000000;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+  margin-top: 0.75rem;
+  cursor: pointer;
+}
+
+.demo-section button:hover,
+.demo-section button:active {
+  color: #ffffff;
+  background-color: #282c34;
+}
+
+@media screen and (min-width: 672px) {
+  .demo-app-container {
+    flex-direction: row;
+  }
+}

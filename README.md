@@ -23,15 +23,14 @@
 - 100% config driven
 - Async actions
 - Extend with plugins like Immer
-- Debug mode
-- Secure state updates
 - Multiple stores/contexts
+- Easy Debugging
 
 ## Introduction
 
-smart-context is based on in-built React features - context and hooks.
+smart-context is based on React context and hooks. If you know React, you know smart-context.
 
-If you know React, you know smart-context. There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
+There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
 
 Here is the [demo](https://react-smart-context-demo.stackblitz.io).
 
@@ -51,8 +50,6 @@ yarn add smart-context
 
 ## Getting started
 
-You can create multiple stores. All stores must have a unique name.
-
 Setup in 3 simple steps:
 
 1. Create store
@@ -60,6 +57,8 @@ Setup in 3 simple steps:
 3. Access store
 
 ### Create store
+
+You can create multiple stores. All stores must have a unique name.
 
 ```js
 // store.js
@@ -83,7 +82,7 @@ export default {
 };
 ```
 
-### Plugin to your app
+### Plugin `smart-context`
 
 Add multiple stores to your app with just one line.
 
@@ -101,9 +100,7 @@ export default WithContextProvider(App, [Config]);
 
 ### Access store
 
-`smart-context` ready for use in entire app.
-
-Access store via builtin `useContext` hook or `smart-context` HOC.
+`smart-context` ready for use.
 
 #### Using hook
 
@@ -114,7 +111,6 @@ import React, { useContext } from "react";
 import { getContext } from "smart-context";
 
 const MyAwesomeComponent = () => {
-  // Access context via displayName
   const {
     state: { name },
     actions: { setName, reset },
@@ -153,14 +149,14 @@ class DemoComp extends React.Component {
     super(props);
   }
 
-  // context is available in prop with same name
+  // Access store in prop
   render() {
-    const { state } = props.myContext
+    const { state } = this.props.myContext
     <div>{state.name}</div>;
   }
 }
 
-// Access multiple contexts in one line.
+// Access multiple stores in one line.
 export default WithContextConsumer(DemoComp, ["myContext"]);
 ```
 
