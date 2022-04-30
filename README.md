@@ -1,10 +1,4 @@
-<style>
-  .title {
-    text-align: center;
-  }
-</style>
-
-<div class="title">
+<div align="center">
 
 <img src='assets/smart-context-logo.png' height='150' alt='Logo' aria-label='smart-context' />
 
@@ -28,11 +22,18 @@
 
 ## Introduction
 
+<<<<<<< HEAD
 smart-context is based on React context and hooks. If you know React, you know smart-context.
 
-There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
+# There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
 
-Here is the [demo](https://react-smart-context-demo.stackblitz.io).
+If you know React, you know smart-context.
+
+smart-context is based on in-built React features - context and hooks. There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
+
+> > > > > > > 314adcd19219412566d37626715ad1f4a19124f8
+
+Here is the [demo](https://react-ndsscw.stackblitz.io).
 
 ## Installation
 
@@ -136,7 +137,7 @@ const MyAwesomeComponent = () => {
 export default MyAwesomeComponent;
 ```
 
-### Using HOC
+#### Using HOC
 
 ```jsx
 // demoComp.js
@@ -151,8 +152,8 @@ class DemoComp extends React.Component {
 
   // Access store in prop
   render() {
-    const { state } = this.props.myContext
-    <div>{state.name}</div>;
+    const { state } = this.props.myContext;
+    return <div>{state.name}</div>;
   }
 }
 

@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/achaljain/smart-context/compare/v2.1.2...v2.1.3) (2022-04-23)
+
+
+### Bug Fixes
+
+* ctx access before provider ([5e31eea](https://github.com/achaljain/smart-context/commit/5e31eeaed068e3065c70b145fd814f9c28149e97))
+
 ## [2.1.2](https://github.com/achaljain/smart-context/compare/v2.1.1...v2.1.2) (2022-01-01)
 
 
