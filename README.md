@@ -1,10 +1,13 @@
 <div align="center">
 
+<a href="https://smart-context.netlify.app" target="_blank">
 <img src='assets/smart-context-logo.png' height='150' alt='Logo' aria-label='smart-context' />
+</a>
 
 <h1>smart-context</h1>
 
 <p>React state management made easy</p>
+<p>[https://smart-context.netlify.app](https://smart-context.netlify.app/)</p>
 
 [![npm version](https://badge.fury.io/js/smart-context.svg)](https://badge.fury.io/js/smart-context) [![Build Status](https://travis-ci.com/achaljain/smart-context.svg?branch=master)](https://travis-ci.com/achaljain/smart-context) [![Coverage Status](https://coveralls.io/repos/github/achaljain/smart-context/badge.svg?branch=master)](https://coveralls.io/github/achaljain/smart-context?branch=master) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
@@ -16,24 +19,9 @@
 - Zero setup. No boilerplate
 - 100% config driven
 - Async actions
-- Extend with plugins like Immer
+- Extend with plugins
 - Multiple stores/contexts
 - Easy Debugging
-
-## Introduction
-
-<<<<<<< HEAD
-smart-context is based on React context and hooks. If you know React, you know smart-context.
-
-# There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
-
-If you know React, you know smart-context.
-
-smart-context is based on in-built React features - context and hooks. There is no new API or customization on top of React. It abstracts all the low level details of state management setup so that developers can focus on the real problem they are trying to solve.
-
-> > > > > > > 314adcd19219412566d37626715ad1f4a19124f8
-
-Here is the [demo](https://react-ndsscw.stackblitz.io).
 
 ## Installation
 
@@ -49,13 +37,7 @@ npm install smart-context
 yarn add smart-context
 ```
 
-## Getting started
-
-Setup in 3 simple steps:
-
-1. Create store
-2. Plugin to your app
-3. Access store
+## Quick start in 3 steps
 
 ### Create store
 
@@ -85,8 +67,6 @@ export default {
 
 ### Plugin `smart-context`
 
-Add multiple stores to your app with just one line.
-
 ```jsx
 // Wrap root component in smart-context HOC
 import React from "react";
@@ -100,10 +80,6 @@ export default WithContextProvider(App, [Config]);
 ```
 
 ### Access store
-
-`smart-context` ready for use.
-
-#### Using hook
 
 ```jsx
 // myAwesomeComponent.jsx
@@ -137,108 +113,9 @@ const MyAwesomeComponent = () => {
 export default MyAwesomeComponent;
 ```
 
-#### Using HOC
+## Documentation
 
-```jsx
-// demoComp.js
-
-import React from "react";
-import { WithContextConsumer } from "smart-context";
-
-class DemoComp extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  // Access store in prop
-  render() {
-    const { state } = this.props.myContext;
-    return <div>{state.name}</div>;
-  }
-}
-
-// Access multiple stores in one line.
-export default WithContextConsumer(DemoComp, ["myContext"]);
-```
-
-## Config options
-
-- **`displayName`**: string (mandatory)
-
-  - A unique name for context store
-  - Required to access the context
-
-- **`debug`**: boolean
-
-  - Log errors and state updates to console
-
-- **`initialState`**: object (not mandatory but recommended)
-
-  - declare some initial state for predictable behavior during initial render and reset
-
-- **`actionsConfig`**: object
-  - structure: `{ actionName: [string] | function }`
-  - **camelCase** is recommended for `actionName`
-  - for any store, `reset` action is auto-generated that restores `initialState`
-
-## Action Types
-
-There are two possible action types.
-
-### List
-
-```jsx
-actionName: ["key1", "key2"];
-```
-
-Provide list of state keys for update. Action call expects an object with same keys.
-
-Mismatching keys in action calls are ignored.
-
-#### Caution
-
-This will only create shallow copy of state. Be careful if you have deep nested state object.
-
-### Function
-
-Provide a function that returns another function (state transform function).
-
-State transform function gets previous state and returns new state.
-
-This is suitable for deep nested state objects, async actions, integrate external plugins etc.
-
-```jsx
-
-// Async actions
-actionName: async (payload) => {
-  // Some API call here
-  const data = await AsyncAPICall()
-
-  // State transform function
-  return (state) => {...state, ...data }
-};
-
-// Immutability with immer js
-import produce from "immer";
-
-// Reusable utility method.
-// cb: state transform function
-const updateWithImmer = (cb) => (state) => {
-  const newSt = produce(state, cb);
-  return newSt;
-};
-
-actionName: (payload) => {
-  return updateWithImmer((state) => {
-      state.data = 'This is just a example..'
-    })
-};
-
-```
-
-### Reset Action
-
-A `reset` action is auto-generated if not provided in config. Restores `initialState`.
+Visit [website](https://smart-context.netlify.app) for full documentation and demo.
 
 ## Contributing
 
