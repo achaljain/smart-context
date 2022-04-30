@@ -8,7 +8,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "smart-context",
   tagline: "React state management made easy.",
-  url: "https://achaljain.github.io",
+  url: "https://smart-context.netlify.app",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -16,6 +16,7 @@ const config = {
   organizationName: "achaljain", // Usually your GitHub org/user name.
   projectName: "smart-context", // Usually your repo name.
   deploymentBranch: "master",
+  trailingSlash: false,
 
   presets: [
     [
