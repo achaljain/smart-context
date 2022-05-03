@@ -1,21 +1,17 @@
-import React, { useContext, useCallback } from "react";
+import React, { useContext, useCallback, useEffect } from "react";
 import { getContext, WithContextProvider } from "smart-context";
 
 import config from "./store";
 
-import { generate, simulateHandler } from "../common/utils";
+import { generate, simulateHandler, showTime } from "../common/utils";
 import ToDoItem from "./item";
 
-const ToDoList = ({ perf, inputSize }) => {
+const ToDoList = ({ config: Config }) => {
+  const { perf, inputSize } = Config;
   const { state, actions } = useContext(getContext("ToDo"));
   const { generateTodos, toggleTodo } = actions;
   const { todos } = state;
-
-  const createTodos = () => {
-    generateTodos({
-      todos: generate(inputSize),
-    });
-  };
+  const todosLength = Object.keys(todos).length;
 
   const toggle = (e) => {
     toggleTodo(e.target.id);
@@ -23,25 +19,35 @@ const ToDoList = ({ perf, inputSize }) => {
 
   const toggleMemoized = useCallback(toggle, []);
 
-  const simulateTodo = () => {
-    simulateHandler();
-  };
+  useEffect(() => {
+    showTime(todos);
+  }, [todos]);
+
+  useEffect(() => {
+    if (Config.inputSize) {
+      generateTodos({
+        todos: generate(inputSize),
+      });
+    }
+  }, [Config]);
+
+  useEffect(() => {
+    if (todosLength === inputSize) {
+      simulateHandler();
+    }
+  }, [Config, todosLength]);
 
   return (
-    <>
-      <button onClick={createTodos}>Generate</button>
-      <button onClick={simulateTodo}>Simulate</button>
-      <div className="todo-container">
-        {Object.keys(todos).map((i) => (
-          <ToDoItem
-            key={i}
-            todo={todos[i]}
-            toggle={perf ? toggleMemoized : toggle}
-          />
-        ))}
-      </div>
-    </>
+    <div className="todo-container">
+      {Object.keys(todos).map((i) => (
+        <ToDoItem
+          key={i}
+          todo={todos[i]}
+          toggle={perf ? toggleMemoized : toggle}
+        />
+      ))}
+    </div>
   );
 };
 
-export default WithContextProvider(ToDoList, [config]);
+export default React.memo(WithContextProvider(ToDoList, [config]));

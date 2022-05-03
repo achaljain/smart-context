@@ -4,14 +4,14 @@ import { GlobalContext, initialState, reducer } from "./store";
 
 import ToDoList from "./todoList";
 
-const WithContextProvider = ({ perf, inputSize }) => {
+const WithContextProvider = ({ config }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
-      <ToDoList perf={perf} inputSize={inputSize} />
+      <ToDoList config={config} />
     </GlobalContext.Provider>
   );
 };
 
-export default WithContextProvider;
+export default React.memo(WithContextProvider);

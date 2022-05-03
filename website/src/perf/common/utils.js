@@ -1,5 +1,5 @@
 let SIZE = 10;
-
+let simulateCtr = 0;
 export const SIMULATE_SIZE = 10;
 
 export const generate = (sz) => {
@@ -31,19 +31,29 @@ export const updateHandler = (btnId, fullList) => {
 
 export const simulateHandler = () => {
   let ctr = 0;
-  window.logStartTime = "start";
+  window.logStartTime = performance.now();
+  simulateCtr = 0;
+
   const intervalRef = setInterval(() => {
     if (ctr === SIMULATE_SIZE) {
       clearInterval(intervalRef);
       return false;
     } else {
-      if (ctr === SIMULATE_SIZE - 1) {
-        window.logStartTime = "end";
-      }
       const id = Math.floor(Math.random() * SIZE);
       const elem = document.getElementById(`btn-${id}`);
+      elem.focus();
       elem.click();
       ctr++;
     }
   }, 100);
+};
+
+export const showTime = () => {
+  simulateCtr++;
+  if (simulateCtr === SIMULATE_SIZE) {
+    window.logStartTime = performance.now() - window.logStartTime;
+    document.getElementById(
+      "simulate-result"
+    ).innerText = `Simulate time (sec) - ${window.logStartTime / 1000}`;
+  }
 };

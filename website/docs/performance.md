@@ -28,7 +28,7 @@ React profiler commit time to toggle 10 random todos.
 
 :::tip
 
-Explore [source code](https://github.com/achaljain/smart-context/tree/master/website/src/perf) and notice, how fix for performance improvement is same for Redux and Context.
+Explore [source code](https://github.com/achaljain/smart-context/tree/master/website/src/perf) and notice, how performance fix is same for Redux and Context.
 
 :::
 

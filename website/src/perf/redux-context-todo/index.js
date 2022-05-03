@@ -4,12 +4,12 @@ import { Provider } from "react-redux";
 import ToDoList from "./todoList";
 import store from "./store";
 
-const WithReduxProvider = ({ perf, inputSize }) => {
+const WithReduxProvider = ({ config }) => {
   return (
     <Provider store={store}>
-      <ToDoList perf={perf} inputSize={inputSize} />
+      <ToDoList config={config} />
     </Provider>
   );
 };
 
-export default WithReduxProvider;
+export default React.memo(WithReduxProvider);
