@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/achaljain/smart-context/compare/v2.1.3...v2.1.4) (2022-05-03)
+
+
+### Bug Fixes
+
+* add docs ([40a123f](https://github.com/achaljain/smart-context/commit/40a123f6e1b119a7092ac6aa87dc8fcc80cd682f))
+
 ## [2.1.3](https://github.com/achaljain/smart-context/compare/v2.1.2...v2.1.3) (2022-04-23)
 
 
