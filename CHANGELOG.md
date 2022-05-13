@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/achaljain/smart-context/compare/v2.1.4...v2.2.0) (2022-05-13)
+
+
+### Bug Fixes
+
+* merge conflicts ([095fa74](https://github.com/achaljain/smart-context/commit/095fa74554107368597f88e1d40f50a5d461c89c))
+
+
+### Features
+
+* code refractor ([a618ffe](https://github.com/achaljain/smart-context/commit/a618ffe52a89c587a52132f66a0bc77900d51a16))
+
 ## [2.1.4](https://github.com/achaljain/smart-context/compare/v2.1.3...v2.1.4) (2022-05-03)
 
 
