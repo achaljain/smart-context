@@ -1,14 +1,17 @@
-import { validateConfigArray, fireLog, validateObject } from "./utils";
+import { fireLog, validateObject, validateActionArray } from "./utils";
 import { getContextParam } from "./register";
 
-const getDispatcher = (type, contextName) => (payload) => {
+const getLogger = (debug, displayName) => (message, data, type = "error") =>
+  fireLog(debug, type, message, { displayName, data });
+
+const dispatchAction = (type, contextName, payload) => {
   const dispatch = getContextParam(contextName, "dispatch");
-  return dispatch({ type, payload, contextName });
+  dispatch({ type, payload, contextName });
 };
 
-const createActions = (actionConfig, contextName, debug) => {
+const createActions = (actionConfig, contextName, loggerFn) => {
   const actions = {};
-  const inValidActions = {};
+  const invalidActions = {};
 
   Object.keys(actionConfig).forEach((a) => {
     const actionName = a;
@@ -18,60 +21,58 @@ const createActions = (actionConfig, contextName, debug) => {
       // Custom handler - Sync,Async,deep state object
       actions[a] = async (...params) => {
         const updatedFn = await Promise.resolve(actionEffect(...params));
-        getDispatcher(actionName, contextName)(updatedFn);
+        if (typeof updatedFn === "function") {
+          dispatchAction(actionName, contextName, updatedFn);
+        } else {
+          loggerFn("Custom action must return a state transform function", {
+            actionName,
+          });
+        }
       };
-    } else if (validateConfigArray(actionEffect)) {
+    } else if (validateActionArray(actionEffect)) {
       actions[a] = (payload) => {
         if (!validateObject(payload)) {
-          fireLog(
-            debug,
-            "error",
-            "Invalid action call. Payload must be an object",
-            {
-              contextName,
-              actionName: a,
-              expectedKeys: actionEffect,
-              payload,
-            }
-          );
+          loggerFn("Action payload must be an object", {
+            actionName,
+            payload,
+            expectedKeys: actionEffect,
+          });
           return;
         }
 
         const updateObj = {};
 
-        Object.keys(payload).forEach((k) => {
-          if (actionEffect.indexOf(k) >= 0) {
+        actionEffect.forEach((k) => {
+          if (k in payload) {
             updateObj[k] = payload[k];
           }
         });
 
-        getDispatcher(actionName, contextName)(updateObj);
+        dispatchAction(actionName, contextName, updateObj);
       };
     } else {
-      inValidActions[a] = actionEffect;
+      invalidActions[a] = actionEffect;
     }
   });
 
   /** add reset action if not provided in config */
   if (!actions.reset) {
     actions.reset = () =>
-      getDispatcher(
+      dispatchAction(
         "reset",
-        contextName
-      )(getContextParam(contextName, "initialState"));
+        contextName,
+        getContextParam(contextName, "initialState")
+      );
   }
 
-  if (debug && Object.keys(inValidActions).length) {
-    fireLog(debug, "error", "Invalid actions found in config are ignored.", {
-      contextName,
-      inValidActions,
-    });
+  if (Object.keys(invalidActions).length) {
+    loggerFn("Found invalid actions in config", { invalidActions });
   }
 
   return { actions };
 };
 
-const createReducers = (contextName, debug) => {
+const createReducers = (loggerFn) => {
   const reducer = (state, action) => {
     try {
       const { payload } = action;
@@ -83,19 +84,18 @@ const createReducers = (contextName, debug) => {
         newState = { ...state, ...payload };
       }
 
-      fireLog(debug, "log", "Action dispatch success", {
-        contextName,
-        action,
-        newState,
-      });
+      loggerFn(
+        "Action dispatch success",
+        {
+          action,
+          previousState: state,
+          newState,
+        },
+        "log"
+      );
       return newState;
     } catch (error) {
-      fireLog(debug, "error", "Action dispatch failed", {
-        contextName,
-        action,
-        error,
-      });
-
+      loggerFn("Action dispatch failed", { action, error });
       return state;
     }
   };
@@ -104,9 +104,11 @@ const createReducers = (contextName, debug) => {
 };
 
 const setupStore = ({ actionsConfig, displayName, debug }) => {
-  const { actions } = createActions(actionsConfig, displayName, debug);
+  const loggerFn = getLogger(debug, displayName);
 
-  const { reducer } = createReducers(displayName, debug);
+  const { actions } = createActions(actionsConfig, displayName, loggerFn);
+
+  const { reducer } = createReducers(loggerFn);
 
   return { actions, reducer };
 };

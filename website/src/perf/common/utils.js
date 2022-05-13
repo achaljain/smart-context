@@ -52,8 +52,7 @@ export const showTime = () => {
   simulateCtr++;
   if (simulateCtr === SIMULATE_SIZE) {
     window.logStartTime = performance.now() - window.logStartTime;
-    document.getElementById(
-      "simulate-result"
-    ).innerText = `Simulate time (sec) - ${window.logStartTime / 1000}`;
+    const elem = document.getElementById("simulate-result");
+    elem.innerText = `Test time (sec) - ${window.logStartTime / 1000}`;
   }
 };

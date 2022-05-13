@@ -6,12 +6,12 @@ import { WithContextProvider, WithContextConsumer, getContext } from "../index";
 const config1 = {
   initialState: { dummy1: "" },
   actionsConfig: {
-    setDummy1: ["dummy1"],
+    setDummy1: ["dummy1", "dummy2"],
     invalidAction: [null],
     reset: () => () => {},
   },
   displayName: "testCtx1",
-  debug: true,
+  debug: false,
 };
 
 const config2 = {

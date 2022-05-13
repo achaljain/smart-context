@@ -1,4 +1,4 @@
-import { fireLog, validateConfigArray, validateStringLiteral } from "../utils";
+import { fireLog, validateActionArray } from "../utils";
 
 describe("Utils", () => {
   let spy;
@@ -11,17 +11,10 @@ describe("Utils", () => {
     spy.mockRestore();
   });
 
-  it("should validate string", () => {
-    expect(validateStringLiteral("")).toBeFalsy();
-    expect(validateStringLiteral("valid string")).toBeTruthy();
-  });
-
   it("should validate config array", () => {
-    expect(validateConfigArray("str")).toBeFalsy();
-    expect(validateConfigArray([])).toBeFalsy();
-    expect(validateConfigArray(["str"])).toBeTruthy();
-    expect(validateConfigArray([{}], "object")).toBeFalsy();
-    expect(validateConfigArray([{ debug: true }], "object")).toBeTruthy();
+    expect(validateActionArray("str")).toBeFalsy();
+    expect(validateActionArray([])).toBeFalsy();
+    expect(validateActionArray(["str"])).toBeTruthy();
   });
 
   it("should fire logs", () => {

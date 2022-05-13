@@ -3,10 +3,10 @@
 import React, { createContext, useReducer, useEffect, useState } from "react";
 
 import { setupStore } from "./manager";
-import { fireLog } from "./utils";
+import { generateCompHOC } from "./utils";
 import { registerContextParams, getContextParam } from "./register";
 
-const generateWrapper = (WrappedComponent, config) => {
+const applyProviderHOC = (WrappedComponent, config) => {
   const {
     initialState = {},
     actionsConfig = {},
@@ -69,17 +69,7 @@ const generateWrapper = (WrappedComponent, config) => {
   return SmartProvider;
 };
 
-const WithContextProvider = (WrappedComponent, configArray) => {
-  try {
-    const ContextWrap = configArray.reduce(
-      (acc, curr) => generateWrapper(acc, curr),
-      WrappedComponent
-    );
-    return ContextWrap;
-  } catch (error) {
-    fireLog(true, "error", "WithContextProvider: Config array invalid", error);
-    return WrappedComponent;
-  }
-};
+const WithContextProvider = (WrappedComponent, configArray) =>
+  generateCompHOC(WrappedComponent, configArray, applyProviderHOC);
 
 export default WithContextProvider;

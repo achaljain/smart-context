@@ -23,7 +23,7 @@ function App() {
   };
 
   const simulateHandler = () => {
-    document.getElementById("simulate-result").innerHTML = "Running simulation";
+    document.getElementById("simulate-result").innerHTML = "Running test...";
     setConfig({
       type: comp,
       inputSize: sz,

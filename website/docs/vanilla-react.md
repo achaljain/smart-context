@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Life without smart-context
 
-Below are the steps for setting up state management using context.
+Below are the steps for setting up state management using react context.
 
 ## File 1 - Constants
 

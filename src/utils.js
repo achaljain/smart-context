@@ -1,23 +1,30 @@
-export const validateStringLiteral = (str) =>
-  str && typeof str === "string" && str.length > 0;
-
 export const validateObject = (obj) =>
   obj && obj.constructor === Object && Object.keys(obj).length > 0;
 
-export const validateArray = (arr) => Array.isArray(arr) && arr.length > 0;
-
-export const validateConfigArray = (arr, elemType) => {
-  if (!validateArray(arr)) {
-    return false;
-  }
-
-  const validator =
-    elemType === "object" ? validateObject : validateStringLiteral;
-  return arr.every((elem) => validator(elem));
-};
+export const validateActionArray = (arr) =>
+  Array.isArray(arr) &&
+  arr.length > 0 &&
+  arr.every((elem) => typeof elem === "string");
 
 export const fireLog = (debug, type, message, data) => {
   if (debug) {
     console[type](`::SMART-CONTEXT::DEBUG:: ${message}`, data);
+  }
+};
+
+export const generateCompHOC = (Comp, configArray, wrapFn) => {
+  try {
+    const CompWrapped = configArray.reduce(
+      (acc, curr) => wrapFn(acc, curr),
+      Comp
+    );
+    return CompWrapped;
+  } catch (error) {
+    fireLog(true, "error", "Generate HOC", {
+      component: Comp,
+      config: configArray,
+      error,
+    });
+    return Comp;
   }
 };

@@ -3,11 +3,11 @@
  */
 import React, { useContext } from "react";
 import { getContextParam } from "./register";
-import { validateConfigArray } from "./utils";
+import { generateCompHOC } from "./utils";
 
 export const getContext = (name) => getContextParam(name, "context");
 
-const getWrapper = (WrappedComponent, ctxName) => {
+const applyConsumerHOC = (WrappedComponent, ctxName) => {
   const SmartConsumer = (props) => {
     const ctxRef = getContext(ctxName);
 
@@ -26,17 +26,7 @@ const getWrapper = (WrappedComponent, ctxName) => {
   return SmartConsumer;
 };
 
-const WithContextConsumer = (WrappedComponent, contextNames) => {
-  if (!validateConfigArray(contextNames)) {
-    throw new Error("WithContextConsumer: Context name array invalid");
-  }
-
-  const ContextWrap = contextNames.reduce(
-    (acc, curr) => getWrapper(acc, curr),
-    WrappedComponent
-  );
-
-  return ContextWrap;
-};
+const WithContextConsumer = (WrappedComponent, contextNames) =>
+  generateCompHOC(WrappedComponent, contextNames, applyConsumerHOC);
 
 export default WithContextConsumer;
