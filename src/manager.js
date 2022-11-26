@@ -4,8 +4,12 @@ import { getContextParam } from "./register";
 const getLogger = (debug, displayName) => (message, data, type = "error") =>
   fireLog(debug, type, message, { displayName, data });
 
-const dispatchAction = (type, contextName, payload) => {
+const dispatchAction = (type, contextName, payload, loggerFn) => {
   const dispatch = getContextParam(contextName, "dispatch");
+  if (!dispatch) {
+    loggerFn("Dispatch not registered", { contextName });
+    return;
+  }
   dispatch({ type, payload, contextName });
 };
 
@@ -22,7 +26,7 @@ const createActions = (actionConfig, contextName, loggerFn) => {
       actions[a] = async (...params) => {
         const updatedFn = await Promise.resolve(actionEffect(...params));
         if (typeof updatedFn === "function") {
-          dispatchAction(actionName, contextName, updatedFn);
+          dispatchAction(actionName, contextName, updatedFn, loggerFn);
         } else {
           loggerFn("Custom action must return a state transform function", {
             actionName,
@@ -48,7 +52,7 @@ const createActions = (actionConfig, contextName, loggerFn) => {
           }
         });
 
-        dispatchAction(actionName, contextName, updateObj);
+        dispatchAction(actionName, contextName, updateObj, loggerFn);
       };
     } else {
       invalidActions[a] = actionEffect;
@@ -61,7 +65,8 @@ const createActions = (actionConfig, contextName, loggerFn) => {
       dispatchAction(
         "reset",
         contextName,
-        getContextParam(contextName, "initialState")
+        getContextParam(contextName, "initialState"),
+        loggerFn
       );
   }
 
