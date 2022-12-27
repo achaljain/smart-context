@@ -22,6 +22,7 @@
 - Extend with plugins
 - Multiple stores/contexts
 - Easy Debugging
+- Typescript support
 
 ## Installation
 
