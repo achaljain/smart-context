@@ -1,3 +1,22 @@
+# [3.0.0](https://github.com/achaljain/smart-context/compare/v2.2.1...v3.0.0) (2022-12-27)
+
+
+### Bug Fixes
+
+* readme update ([454ab61](https://github.com/achaljain/smart-context/commit/454ab6164eba291dcdaec40adbdd38a9d0d1eef9))
+* readme update ([a8c6448](https://github.com/achaljain/smart-context/commit/a8c6448d7c6e03a979130aa21ff35510f029648d))
+* update readme ([92ec851](https://github.com/achaljain/smart-context/commit/92ec851feeaa365fca1e305531c16c034676a917))
+
+
+### Features
+
+* **ts:** added typescript support ([5a065e1](https://github.com/achaljain/smart-context/commit/5a065e1192a9fc1b62e06115026c33bb0d352d39))
+
+
+### BREAKING CHANGES
+
+* **ts:** all file change to ts
+
 ## [2.2.1](https://github.com/achaljain/smart-context/compare/v2.2.0...v2.2.1) (2022-11-26)
 
 
