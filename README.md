@@ -47,36 +47,36 @@ You can create multiple stores. All stores must have a unique name.
 // store.js
 
 // Create initial state
-const initialState = { name: "" };
+const initialState = { name: '' }
 
 // Create actions
 const actionsConfig = {
-  setName: ["name"],
-};
+  setName: ['name'],
+}
 
 // Provide a good name
-const displayName = "myContext";
+const displayName = 'myContext'
 
 // Setup is done! Export config
 export default {
   initialState,
   actionsConfig,
   displayName,
-};
+}
 ```
 
 ### Plugin `smart-context`
 
 ```jsx
 // Wrap root component in smart-context HOC
-import React from "react";
-import { WithContextProvider } from "smart-context";
+import React from 'react'
+import { WithContextProvider } from 'smart-context'
 
-import Config from "./store";
+import Config from './store'
 
-const App = ({ children }) => <div id="app-container">{children}</div>;
+const App = ({ children }) => <div id="app-container">{children}</div>
 
-export default WithContextProvider(App, [Config]);
+export default WithContextProvider(App, [Config])
 ```
 
 ### Access store
@@ -84,22 +84,22 @@ export default WithContextProvider(App, [Config]);
 ```jsx
 // myAwesomeComponent.jsx
 
-import React, { useContext } from "react";
-import { getContext } from "smart-context";
+import React from 'react'
+import { useSmartContext } from 'smart-context'
 
 const MyAwesomeComponent = () => {
   const {
     state: { name },
     actions: { setName, reset },
-  } = useContext(getContext("myContext"));
+  } = useSmartContext('myContext')
 
   const clickHandler = () => {
-    setName({ name: "smart-context" });
-  };
+    setName({ name: 'smart-context' })
+  }
 
   const resetHandler = () => {
-    reset();
-  };
+    reset()
+  }
 
   return (
     <>
@@ -107,10 +107,10 @@ const MyAwesomeComponent = () => {
       <button onClick={resetHandler}>Reset</button>
       {name ? <h1>Hi, {name}</h1> : null}
     </>
-  );
-};
+  )
+}
 
-export default MyAwesomeComponent;
+export default MyAwesomeComponent
 ```
 
 ## Documentation
