@@ -1,30 +1,30 @@
-import React, { useContext } from "react";
-import { getContext } from "smart-context";
+import React, { useContext } from 'react'
+import { getContext } from 'smart-context'
 
 /**
  * Context available in props
  */
 const MyAwesomeComponent = () => {
   const { state: postState, actions: postActions } = useContext(
-    getContext("post")
-  );
+    getContext('post')
+  )
 
   /** Async action */
   const clickHandlerAsync = () => {
-    postActions.setLoading({ loading: true });
-    postActions.setPost();
-  };
+    postActions.setLoading({ loading: true })
+    postActions.setPost()
+  }
 
   /** Action with immer js */
   const clickHandlerAddPost = () => {
-    postActions.setLoading({ loading: true });
-    postActions.addPost();
-  };
+    postActions.setLoading({ loading: true })
+    postActions.addPost()
+  }
 
   const resetHandler = () => {
     // reset action is auto-generated that restores initial state
-    postActions.reset();
-  };
+    postActions.reset()
+  }
 
   return (
     <div className="demo-section">
@@ -45,7 +45,7 @@ const MyAwesomeComponent = () => {
         Reset
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default MyAwesomeComponent;
+export default MyAwesomeComponent

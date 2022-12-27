@@ -1,30 +1,21 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true,
-    "jest/globals": true
-  },
-  "extends": [
-    "plugin:jest/recommended",
-    "plugin:react/recommended",
-    "airbnb",
-    "prettier"
-  ],
+  "extends": ["airbnb", "airbnb-typescript", "prettier"],
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    "project": "./tsconfig.json"
   },
-  "plugins": ["react", "prettier", "jest"],
+  "plugins": ["jest"],
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": "off",
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-console": "off"
+  },
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest/globals": true
   },
   "ignorePatterns": ["website"]
 }

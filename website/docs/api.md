@@ -13,20 +13,36 @@ HOC to plugin `smart-context` in your app. Wrap top level component in HOC.
 You can add multiple context stores. All children can access stores with `displayName`.
 
 ```jsx
-const App = ({ children }) => <>{children}</>;
+const App = ({ children }) => <>{children}</>
 
-export default WithContextProvider(App, [storeConfig1, storeConfig2]);
+export default WithContextProvider(App, [storeConfig1, storeConfig2])
+```
+
+## useSmartContext
+
+Hook to access store with `displayName`.
+
+```jsx
+const SomeCompInApp = () => {
+  const { state, actions } = useSmartContext('store1')
+}
 ```
 
 ## getContext
+
+:::caution
+
+Deprecated. Prefer `useSmartContext` hook.
+
+:::
 
 Method to access store with `displayName`. Technically, store is a React context object.
 
 ```jsx
 const SomeCompInApp = () => {
-  const store1 = getContext("store1");
-  const { state, actions } = useContext(store1);
-};
+  const store1 = getContext('store1')
+  const { state, actions } = useContext(store1)
+}
 ```
 
 ## WithContextConsumer
@@ -37,12 +53,12 @@ You can add multiple context stores. HOC adds store as a prop with `displayName`
 
 ```jsx
 const SomeCompInApp = ({ store1, store2 }) => {
-  const { state, actions } = store1;
+  const { state, actions } = store1
 
-  return <></>;
-};
+  return <></>
+}
 
-export default WithContextConsumer(SomeCompInApp, ["store1", "store2"]);
+export default WithContextConsumer(SomeCompInApp, ['store1', 'store2'])
 ```
 
 :::tip Tip
