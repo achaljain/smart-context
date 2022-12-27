@@ -15,7 +15,7 @@
 
 ## Highlights
 
-- Lightweight ( ~1.2 kb )
+- Lightweight
 - Zero setup. No boilerplate
 - 100% config driven
 - Async actions
