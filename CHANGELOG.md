@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/achaljain/smart-context/compare/v2.2.0...v2.2.1) (2022-11-26)
+
+
+### Bug Fixes
+
+* ssr issue ([8cb4e55](https://github.com/achaljain/smart-context/commit/8cb4e5543c0aaa7199dfb742dc5c5bec019a8a55))
+
 # [2.2.0](https://github.com/achaljain/smart-context/compare/v2.1.4...v2.2.0) (2022-05-13)
 
 
